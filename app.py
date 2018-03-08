@@ -84,13 +84,13 @@ def analyze():
 ####  PLOTS  ####################################################################################################
         
     plot1 = figure()
-    plot1.line(x = cadence.index.values, y=cadence['cadence'])
+    plot1.line(x = cadence.index.values, y=cadence['cadence'], plot_height=150)
     
     plot2 = figure()
-    plot2.line(x = altitude.index.values, y=altitude['altitude'])
+    plot2.line(x = altitude.index.values, y=altitude['altitude'], plot_height=150)
     
     plot3 = figure()
-    plot3.line(x = speed.index.values, y=speed['speed'])
+    plot3.line(x = speed.index.values, y=speed['speed'], plot_height=150)
             
 ####  MAP  ####################################################################################################
     
