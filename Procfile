@@ -1,1 +1,1 @@
-web: bokeh serve --use-xheaders app.py
+web: gunicorn app:app
