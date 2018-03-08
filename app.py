@@ -4,7 +4,9 @@ from fitparse import FitFile
 import pandas as pd
 from bokeh.embed import components
 from bokeh.plotting import figure
+from bokeh.util.string import encode_utf8
 from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, Range1d, PanTool, WheelZoomTool, ResetTool, SaveTool
+
 
 app = Flask(__name__)
 
@@ -50,7 +52,7 @@ def analyze():
         
         if file and allowed_file(file.filename):
             fitfile = FitFile(file)
-            
+                
     # convert semicircles to degrees.    
     def deg(s):
         return s*(180./(2**31))
@@ -80,11 +82,16 @@ def analyze():
     lons = df[df['name'].str.match('position_long')].reset_index().filter(regex='value').rename(columns={'value':'lon'})
     locs = pd.concat([lats, lons], axis=1)
 ####  PLOTS  ####################################################################################################
+        
+    plot1 = figure()
+    plot1.line(x = cadence.index.values, y=cadence['cadence'])
     
-    p = figure()
-    p.line(x = cadence.index.values, y=cadence['cadence'])
-    scriptplot, divplot = components(p)
+    plot2 = figure()
+    plot2.line(x = altitude.index.values, y=altitude['altitude'])
     
+    plot3 = figure()
+    plot3.line(x = speed.index.values, y=speed['speed'])
+            
 ####  MAP  ####################################################################################################
     
     map_options = GMapOptions(lat=locs.iloc[0][0], lng=locs.iloc[0][1], map_type="roadmap", zoom=11)
@@ -95,15 +102,20 @@ def analyze():
     activitymap.add_glyph(source, circle)
     activitymap.add_tools(PanTool(), WheelZoomTool(), ResetTool(), SaveTool())
     
-    scriptmap, divmap = components(activitymap)
+        
+    script, div = components((activitymap, plot1, plot2, plot3))
     
-    return render_template('analyzed.html',
+    html = render_template('analyzed.html',
                            tables = [dfmini.to_html(), locs.head().to_html()],
                            titles = ['record', 'name','value','units'],
-                           scriptplot = scriptplot,
-                           divplot = divplot,
-                           scriptmap = scriptmap,
-                           divmap = divmap)
+                           script = script,
+                           activitymap_div = div[0],
+                           plot1_div = div[1],
+                           plot2_div = div[2],
+                           plot3_div = div[3],
+                          )
+    
+    return encode_utf8(html)
 
 # **********************************
 # run the app.

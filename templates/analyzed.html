@@ -1,5 +1,13 @@
 {% extends "layout.html" %}
 
+{% block head %}
+        <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.14.min.css" type="text/css">
+        <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.14.min.js"></script>
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.14.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="static/style.css">
+        {{ script|indent(4)|safe}}
+{% endblock %}
+
 {% block body %}
 
 <p><a href="/">Upload a different file</a></p>
@@ -7,8 +15,7 @@
 <br>
 
 <h4>Map of your activity</h4>
-{{ scriptmap|safe }}
-{{ divmap|safe }}
+{{ activitymap_div|indent(4)|safe }}
 
 <br>
 
@@ -22,8 +29,9 @@
 <br>
 
 <h4>Plots of said data</h4>
-{{ scriptplot|safe }}
-{{ divplot|safe }}
+{{ plot1_div|indent(4)|safe }}
+{{ plot2_div|indent(4)|safe }}
+{{ plot3_div|indent(4)|safe }}
 
 <br>
 
