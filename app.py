@@ -83,17 +83,14 @@ def analyze():
     locs = pd.concat([lats, lons], axis=1)
 ####  PLOTS  ####################################################################################################
         
-    plot1 = figure(plot_height=150)
+    plot1 = figure(plot_height=200, tools="pan, wheel_zoom,reset")
     plot1.line(x = cadence.index.values, y=cadence['cadence'])
-    plot1.add_tools(PanTool(), WheelZoomTool(), ResetTool())
     
-    plot2 = figure(plot_height=150)
+    plot2 = figure(plot_height=200, tools="pan, wheel_zoom,reset")
     plot2.line(x = altitude.index.values, y=altitude['altitude'])
-    plot2.add_tools(PanTool(), WheelZoomTool(), ResetTool())
     
-    plot3 = figure(plot_height=150)
+    plot3 = figure(plot_height=200, tools="pan, wheel_zoom,reset")
     plot3.line(x = speed.index.values, y=speed['speed'])
-    plot3.add_tools(PanTool(), WheelZoomTool(), ResetTool())
             
 ####  MAP  ####################################################################################################
     
