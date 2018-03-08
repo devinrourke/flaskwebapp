@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, request, redirect, flash
 from werkzeug import secure_filename
 from fitparse import FitFile
 import pandas as pd
-import base64
 from bokeh.embed import components
 from bokeh.plotting import figure
 from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, Range1d, PanTool, WheelZoomTool, ResetTool, SaveTool
@@ -37,6 +36,7 @@ def analyze():
             return redirect(url_for('index'))
         
         file = request.files['file']
+        filename = secure_filename(file.filename)
         
         # check if user does not select file
         if file.filename == '':
@@ -49,7 +49,6 @@ def analyze():
             return redirect(url_for('index'))
         
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
             fitfile = FitFile(file)
             
     # convert semicircles to degrees.    
