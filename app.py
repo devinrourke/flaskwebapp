@@ -85,12 +85,15 @@ def analyze():
         
     plot1 = figure(plot_height=150)
     plot1.line(x = cadence.index.values, y=cadence['cadence'])
+    plot1.add_tools(PanTool(), WheelZoomTool(), ResetTool())
     
     plot2 = figure(plot_height=150)
     plot2.line(x = altitude.index.values, y=altitude['altitude'])
+    plot2.add_tools(PanTool(), WheelZoomTool(), ResetTool())
     
     plot3 = figure(plot_height=150)
     plot3.line(x = speed.index.values, y=speed['speed'])
+    plot3.add_tools(PanTool(), WheelZoomTool(), ResetTool())
             
 ####  MAP  ####################################################################################################
     
@@ -100,7 +103,7 @@ def analyze():
     source = ColumnDataSource(data=locs)
     circle = Circle(x="lon", y="lat", size=3, fill_color="blue", fill_alpha=0.9, line_color=None)
     activitymap.add_glyph(source, circle)
-    activitymap.add_tools(PanTool(), WheelZoomTool(), ResetTool(), SaveTool())
+    activitymap.add_tools(PanTool(), WheelZoomTool(), ResetTool())
     
         
     script, div = components((activitymap, plot1, plot2, plot3))
