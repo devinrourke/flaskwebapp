@@ -9,7 +9,7 @@ from bokeh.models import GMapPlot, GMapOptions, ColumnDataSource, Circle, Range1
 
 app = Flask(__name__)
 
-# app.secret_key = 'fkfkjfugyujkghjogh'
+app.secret_key = 'fkfkjfugyujkghjogh'
 
 ALLOWED_EXTENSIONS = set(['fit'])
 
@@ -33,19 +33,19 @@ def analyze():
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
-            # flash('No file selected')
+            flash('No file selected')
             return redirect(url_for('index'))
         
         file = request.files['file']
         
         # check if user does not select file
         if file.filename == '':
-            # flash('No selected file, please try again')
+            flash('No selected file, please try again')
             return redirect(url_for('index'))
         
         # check if user selects wrong type of file
         if not allowed_file(file.filename):
-            # flash('At this time, only .fit files are accepted. Please try again')
+            flash('At this time, only .fit files are accepted. Please try again')
             return redirect(url_for('index'))
         
         if file and allowed_file(file.filename):
@@ -109,5 +109,5 @@ def analyze():
 # **********************************
 # run the app.
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.run()
