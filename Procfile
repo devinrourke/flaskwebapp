@@ -1,1 +1,1 @@
-web: gunicorn app:app
+web: bokeh serve --port=$PORT --host=app.heroku.com --address=0.0.0.0 --use-xheaders app.py
