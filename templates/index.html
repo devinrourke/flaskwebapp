@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block body %}
+        
+        <h1>Hello!</h1>
+        
+        <p>Welcome to the best WebApp ever. Upload a .fit file below. Upon clicking "Upload", your file will be parsed and analyzed, and you'll be redirected to <code>/analyzed</code>, which will display some sweet plots of your data.</p>
+        
+        <h4>Ready? Go!</h4>
+        
+        <form action = "/analyzed" method=post enctype=multipart/form-data>
+            <input type="file" name="file"/>
+            <input type="submit" value="Upload"/>
+        </form>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <p class=flashes>
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+                </p>
+            {% endif %}
+        {% endwith %}
+
+        <br>
+        
+        <p style="font-size:11pt"><b>Note:  </b>All the computation (with pandas, matplotlib) is done server-side, but at present, no data are saved. The file is read, and tables and plots are rendered directly into HTML using Flask's <code>render_template</code> function, which utilizes Jinja2 templates</p>
+        
+        <br>
+        
+        <h4>Don't have a .fit file handy?</h4>
+        
+        <p>I got you. Clicking "Upload Sample File" below will be as if you uploaded one. I get my .fit files from Garmin Connect (after uploading an activity from my watch). The sample file is titled <code>2363427903.fit</code>.</p>
+
+        <form action = "/analyzed" method=get enctype=multipart/form-data>
+            <input type="submit" value="Upload Sample File"/>
+        </form>
+    
+{% endblock %}

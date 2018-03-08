@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<p><a href="/">Upload a different file</a></p>
+
+<br>
+
+<h4>Map of your activity</h4>
+{{ scriptmap|safe }}
+{{ divmap|safe }}
+
+<br>
+
+<h4>Recorded Data of Interest</h4>
+<div class="table-condensed table-striped table-hover">
+    {% for table in tables %}
+    {{ table|safe }}
+    {% endfor %}
+</div>
+
+<br>
+
+<h4>Plots of said data</h4>
+{{ scriptplot|safe }}
+{{ divplot|safe }}
+
+<br>
+
+<p><a href="/">Upload a different file</a></p>
+
+{% endblock %}
