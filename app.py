@@ -52,8 +52,20 @@ def analyze():
         
         if file and allowed_file(file.filename):
             fitfile = FitFile(file)
-                
-    # convert semicircles to degrees.    
+###############  Sample Data  ##################################################
+    gathered_names = []
+    dct = {}
+    frames = []
+    for i in xrange(len(fitfile.messages)):
+        if fitfile.messages[i].name not in gathered_names:
+            gathered_names.append(fitfile.messages[i].name)
+            dct = fitfile.messages[i].get_values()
+            frames.append(pd.DataFrame.from_dict(dct, orient = 'index'))
+
+    dfsampledata = pd.concat(frames, keys=gathered_names)
+    dfsampledata.columns= ["Data Available (if multiple entries, only the 1st is shown)"]
+            
+###############  CLEAN Data for plotting  #################################################
     def deg(s):
         return s*(180./(2**31))
     
@@ -106,7 +118,7 @@ def analyze():
     script, div = components((activitymap, plot1, plot2, plot3))
     
     html = render_template('analyzed.html',
-                           tables = [dfmini.to_html(), locs.head().to_html()],
+                           tables = [dfsampledata.to_html(), dfmini.to_html(), locs.head().to_html()],
                            titles = ['record', 'name','value','units'],
                            script = script,
                            activitymap_div = div[0],
